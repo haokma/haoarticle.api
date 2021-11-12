@@ -41,15 +41,14 @@ const crawlerData = require("./utils");
 
 const app = express();
 const port = 5000;
-
+connectDatabase();
 dotenv.config();
 
+app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
-app.use(morgan("combined"));
 app.use("/api", router);
 
-connectDatabase();
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
