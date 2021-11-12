@@ -51,6 +51,14 @@ const ArticleController = {
       const article = await Article.findOne({
         article_slug: slug,
       });
+      await Article.findOneAndUpdate(
+        {
+          article_slug: slug,
+        },
+        {
+          article_views: article.article_views + 1,
+        }
+      );
       res.status(200).json({ article });
     } catch (error) {
       res.status(503).json({ message: error });

@@ -18,26 +18,26 @@ const crawlerData = require("./utils");
 //   crawlerNews();
 // });
 
-cron.schedule("59 * * * *", function () {
-  console.log("run 1");
-  crawlerData(`http://ttvn.toquoc.vn/doi-song.htm`);
-});
-cron.schedule("59 * * * *", function () {
-  console.log("run 2");
-  crawlerData(`http://ttvn.toquoc.vn/giai-tri.htm`);
-});
-cron.schedule("59 * * * *", function () {
-  console.log("run 3");
-  crawlerData(`http://ttvn.toquoc.vn/du-lich.htm`);
-});
-cron.schedule("59 * * * *", function () {
-  console.log("run 3");
-  crawlerData(`http://ttvn.toquoc.vn/kinh-doanh.htm`);
-});
-cron.schedule("59 * * * *", function () {
-  console.log("run 3");
-  crawlerData(`http://ttvn.toquoc.vn/khoa-hoc.htm`);
-});
+// cron.schedule("59 * * * *", function () {
+//   console.log("run 1");
+//   crawlerData(`http://ttvn.toquoc.vn/doi-song.htm`);
+// });
+// cron.schedule("59 * * * *", function () {
+//   console.log("run 2");
+//   crawlerData(`http://ttvn.toquoc.vn/giai-tri.htm`);
+// });
+// cron.schedule("59 * * * *", function () {
+//   console.log("run 3");
+//   crawlerData(`http://ttvn.toquoc.vn/du-lich.htm`);
+// });
+// cron.schedule("59 * * * *", function () {
+//   console.log("run 3");
+//   crawlerData(`http://ttvn.toquoc.vn/kinh-doanh.htm`);
+// });
+// cron.schedule("59 * * * *", function () {
+//   console.log("run 3");
+//   crawlerData(`http://ttvn.toquoc.vn/khoa-hoc.htm`);
+// });
 
 const app = express();
 const port = 5000;
