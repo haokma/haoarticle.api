@@ -40,10 +40,12 @@ async function crawlerData(url) {
         const article_thumbnail = $(el).find("a img").attr("src");
         const article_time = new Date();
 
+        const article_source_link = `http://ttvn.toquoc.vn${href}`;
+
         list.push(crawlerNewsContent(href));
         data.push({
           article_title,
-          article_slug,
+          article_slug: article_source_link.split("/")[3].split(".")[0],
           article_excerpt,
           article_thumbnail,
           article_time,
@@ -56,7 +58,7 @@ async function crawlerData(url) {
             source_name: "toquoc",
             source_slug: "toquoc",
           },
-          article_source_link: `http://ttvn.toquoc.vn${href}`,
+          article_source_link,
         });
       });
     } else {
@@ -75,7 +77,7 @@ async function crawlerData(url) {
       const article = await Article.find({
         article_source_link,
       });
-      if (!article.length) {
+      if (!article.length && res[i]) {
         console.log(newObject);
         await Article.create(newObject);
         console.log("run");
