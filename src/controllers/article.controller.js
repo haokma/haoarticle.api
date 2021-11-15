@@ -2,7 +2,7 @@ const Article = require("../models/news.model");
 const Pagination = require("../helpers/pagination");
 const ArticleController = {
   getList: async (req, res) => {
-    let { page, limit } = req.query;
+    let { page, limit, tag } = req.query;
     let skip, sort;
 
     page = Pagination.page(+page);
@@ -11,8 +11,14 @@ const ArticleController = {
     sort = {
       createdAt: -1,
     };
+    let find = {};
+    if (tag) {
+      find = {
+        "tags.slug": tag,
+      };
+    }
     try {
-      const total = await Article.find({}).count();
+      const total = await Article.find(find).count();
 
       if (skip >= total) {
         return res.status(409).json({
@@ -20,16 +26,13 @@ const ArticleController = {
           message: "The page does not exist",
         });
       }
-      const data = await Article.find(
-        {},
-        {
-          article_content: 0,
-          article_source_link: 0,
-          article_time: 0,
-          updatedAt: 0,
-          __v: 0,
-        }
-      )
+      const data = await Article.find(find, {
+        article_content: 0,
+        article_source_link: 0,
+        article_time: 0,
+        updatedAt: 0,
+        __v: 0,
+      })
         .sort(sort)
         .skip(skip)
         .limit(limit);
@@ -51,6 +54,19 @@ const ArticleController = {
       const article = await Article.findOne({
         article_slug: slug,
       });
+
+      res.status(200).json({ article });
+    } catch (error) {
+      res.status(503).json({ message: error });
+    }
+  },
+  updateViews: async (req, res) => {
+    const { slug } = req.params;
+    console.log(slug);
+    try {
+      const article = await Article.findOne({
+        article_slug: slug,
+      });
       await Article.findOneAndUpdate(
         {
           article_slug: slug,
@@ -59,9 +75,29 @@ const ArticleController = {
           article_views: article.article_views + 1,
         }
       );
-      res.status(200).json({ article });
+      return res.status(200).json({
+        article,
+      });
     } catch (error) {
-      res.status(503).json({ message: error });
+      return res.status(503).json({
+        message: error,
+      });
+    }
+  },
+  getRelate: async (req, res) => {
+    const { tagId } = req.query;
+    console.log(tagId);
+    try {
+      const articleList = await Article.find({
+        "tags.slug": tagId,
+      }).limit(6);
+      return res.status(200).json({
+        articleList,
+      });
+    } catch (error) {
+      return res.status(503).json({
+        message: error,
+      });
     }
   },
   getListCursor: async (req, res) => {

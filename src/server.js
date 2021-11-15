@@ -38,6 +38,14 @@ cron.schedule("59 * * * *", function () {
   console.log("run 3");
   crawlerData(`http://ttvn.toquoc.vn/khoa-hoc.htm`);
 });
+cron.schedule("59 * * * *", function () {
+  console.log("run 3");
+  crawlerData(`http://ttvn.toquoc.vn/cong-nghe.htm`);
+});
+cron.schedule("59 * * * *", function () {
+  console.log("run 3");
+  crawlerSport();
+});
 
 const app = express();
 const port = process.env.PORT || 5000;
